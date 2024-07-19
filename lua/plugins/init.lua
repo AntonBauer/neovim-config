@@ -46,4 +46,7 @@ require('lazy').setup({
 
   require('plugins.whichkey'),
   require('plugins.fuzzy-finder'),
+  require('plugins.autoformat'),
+  require('plugins.autocomplete'),
+  require('plugins.lsp'),
 })
