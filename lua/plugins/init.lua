@@ -50,4 +50,5 @@ require("lazy").setup({
 	require("plugins.autocomplete"),
 	require("plugins.lsp"),
 	require("plugins.status-line"),
+	require("plugins.theme"),
 })
