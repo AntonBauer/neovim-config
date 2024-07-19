@@ -52,4 +52,5 @@ require("lazy").setup({
 	require("plugins.status-line"),
 	require("plugins.theme"),
 	require("plugins.treesitter"),
+	require("plugins.csharp"),
 })
