@@ -44,13 +44,21 @@ require("lazy").setup({
 		},
 	},
 
+	-- Usability
 	require("plugins.whichkey"),
 	require("plugins.fuzzy-finder"),
+
+	-- LSP and Co
+	require("plugins.treesitter"),
 	require("plugins.autoformat"),
 	require("plugins.autocomplete"),
 	require("plugins.lsp"),
+	require("plugins.autopairs"),
+
+	-- UI
 	require("plugins.status-line"),
 	require("plugins.theme"),
-	require("plugins.treesitter"),
+
+	-- Languages support
 	require("plugins.csharp"),
 })
