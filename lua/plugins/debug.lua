@@ -40,7 +40,7 @@ return {
 
 		-- Basic debugging keymaps, feel free to change to your liking!
 		vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
-		vim.keymap.set("n", "S-<F5>", dap.terminate, { desc = "Debug: Terminate" })
+		vim.keymap.set("n", "<leader><F5>", dap.terminate, { desc = "Debug: Terminate" })
 		vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
 		vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
 		vim.keymap.set("n", "<F9>", dap.step_out, { desc = "Debug: Step Out" })
@@ -55,7 +55,11 @@ return {
 			-- Set icons to characters that are more likely to work in every terminal.
 			--    Feel free to remove or use ones that you like more! :)
 			--    Don't feel like these are good choices.
-			icons = { expanded = "", collapsed = "", current_frame = "*" },
+			icons = {
+				expanded = "",
+				collapsed = "",
+				current_frame = "*",
+			},
 			controls = {
 				icons = {
 					pause = "",
