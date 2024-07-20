@@ -51,9 +51,10 @@ require("lazy").setup({
 	-- LSP and Co
 	require("plugins.treesitter"),
 	require("plugins.autoformat"),
+	require("plugins.autopairs"),
 	require("plugins.autocomplete"),
 	require("plugins.lsp"),
-	require("plugins.autopairs"),
+	require("plugins.debug"),
 
 	-- UI
 	require("plugins.status-line"),
