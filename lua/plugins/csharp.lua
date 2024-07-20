@@ -9,9 +9,9 @@ return {
 		require("mason").setup() -- Mason setup must run before csharp
 		require("csharp").setup()
 
-		vim.keymap.set("n", "<F5>", function()
-			require("csharp").debug_project()
-		end, { desc = "Debug project" })
+		-- vim.keymap.set("n", "<F5>", function()
+		-- 	require("csharp").debug_project()
+		-- end, { desc = "Debug project" })
 
 		vim.keymap.set("n", "<leader>fu", function()
 			require("csharp").fix_usings()
