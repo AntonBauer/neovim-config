@@ -47,6 +47,7 @@ require("lazy").setup({
 	-- Usability
 	require("plugins.whichkey"),
 	require("plugins.fuzzy-finder"),
+	require("plugins.neotree"),
 
 	-- LSP and Co
 	require("plugins.treesitter"),
