@@ -28,13 +28,30 @@ local function _getWorkspaceInformation()
 	end
 
 	if response.err ~= nil then
-		vim.print("Error: " .. response.err)
+		vim.print("Got error response from Omnisharp")
 	end
 
 	return response.result
 end
 
-local function _selectProject()
+local function _selectProject(projects)
+	local co = assert(coroutine.running())
+	local opts = {
+		prompt = "Select project:",
+		format_item = function(project)
+			return project.AssemblyName
+		end,
+	}
+	vim.schedule(function()
+		vim.ui.select(projects, opts, function(selected)
+			coroutine.resume(co, selected)
+		end)
+	end)
+
+	return coroutine.yield()
+end
+
+local function _findProject()
 	local workspaceInfo = _getWorkspaceInformation()
 	if workspaceInfo == nil then
 		vim.print("Error: fetch workspace information failed")
@@ -52,10 +69,12 @@ local function _selectProject()
 	if #executableProjects == 0 then
 		vim.print("Error: no executable project found")
 		return
-	elseif #executableProjects == 1 then
-		local project = executableProjects[1]
 	else
-		local project = executableProjects[1]
+		return _selectProject(executableProjects)
+		-- elseif #executableProjects == 1 then
+		-- 	return executableProjects[1]
+		-- else
+		-- 	return _selectProject(executableProjects)
 	end
 end
 
@@ -107,6 +126,9 @@ function M.setupDebug(dap)
 			name = "launch - netcoredbg",
 			request = "launch",
 			program = function()
+				local project = _findProject()
+				vim.print(project)
+
 				vim.g.dotnet_build_project()
 				return vim.g.dotnet_get_dll_path()
 			end,
