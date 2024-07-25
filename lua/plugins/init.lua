@@ -60,7 +60,4 @@ require("lazy").setup({
 	-- UI
 	require("plugins.status-line"),
 	require("plugins.theme"),
-
-	-- Languages support
-	require("plugins.csharp"),
 })
