@@ -116,7 +116,7 @@ local function _getDllPath()
 	return vim.g["dotnet_last_dll_path"]
 end
 
-function M.setupDebug(dap)
+function M.setup(dap)
 	vim.g.dotnet_build_project = _buildProject
 	vim.g.dotnet_get_dll_path = _getDllPath
 
