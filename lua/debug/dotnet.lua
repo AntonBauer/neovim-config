@@ -13,22 +13,22 @@ local function _getWorkspaceInformation()
 	local buffer = vim.api.nvim_get_current_buf()
 	local omnisharpClient = _getOmnisharpClient(buffer)
 	if omnisharpClient == nil then
-		vim.print("Omnisharp isn't attached to buffer")
+		print("Omnisharp isn't attached to buffer")
 		return
 	end
 
-	local request_method = "c#/projects"
+	local request_method = "o#/projects"
 	local request = {
 		ExcludeSourceFiles = true,
 	}
-	local response = omnisharpClient.request_sync(request_method, request, 1000, buffer)
+	local response = omnisharpClient.request_sync(request_method, request, 10000, buffer)
 	if response == nil then
-		vim.print("Error: response is null")
+		print("Error: response is null")
 		return
 	end
 
 	if response.err ~= nil then
-		vim.print("Got error response from Omnisharp")
+		print("Got error response from Omnisharp", response.err)
 	end
 
 	return response.result
@@ -54,7 +54,7 @@ end
 local function _findProject()
 	local workspaceInfo = _getWorkspaceInformation()
 	if workspaceInfo == nil then
-		vim.print("Error: fetch workspace information failed")
+		print("Error: fetch workspace information failed")
 		return
 	end
 
@@ -67,26 +67,17 @@ local function _findProject()
 	end
 
 	if #executableProjects == 0 then
-		vim.print("Error: no executable project found")
+		print("Error: no executable project found")
 		return
+	elseif #executableProjects == 1 then
+		return executableProjects[1]
 	else
 		return _selectProject(executableProjects)
-		-- elseif #executableProjects == 1 then
-		-- 	return executableProjects[1]
-		-- else
-		-- 	return _selectProject(executableProjects)
 	end
 end
 
-local function _buildProject()
-	local default_path = vim.fn.getcwd() .. "/"
-	if vim.g["dotnet_last_proj_path"] ~= nil then
-		default_path = vim.g["dotnet_last_proj_path"]
-	end
-
-	local path = vim.fn.input("Path to your *proj file", default_path, "file")
-	vim.g["dotnet_last_proj_path"] = path
-	local cmd = "dotnet build -c Debug " .. path .. " > /dev/null"
+local function _buildProject(projectPath)
+	local cmd = "dotnet build -c Debug " .. projectPath .. " > /dev/null"
 	print("")
 	print("Cmd to execute: " .. cmd)
 	local f = os.execute(cmd)
@@ -97,28 +88,8 @@ local function _buildProject()
 	end
 end
 
-local function _getDllPath()
-	local request = function()
-		return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
-	end
-
-	if vim.g["dotnet_last_dll_path"] == nil then
-		vim.g["dotnet_last_dll_path"] = request()
-	else
-		if
-			vim.fn.confirm("Do you want to change the path to dll?\n" .. vim.g["dotnet_last_dll_path"], "&yes\n&no", 2)
-			== 1
-		then
-			vim.g["dotnet_last_dll_path"] = request()
-		end
-	end
-
-	return vim.g["dotnet_last_dll_path"]
-end
-
 function M.setup(dap)
 	vim.g.dotnet_build_project = _buildProject
-	vim.g.dotnet_get_dll_path = _getDllPath
 
 	local config = {
 		{
@@ -127,10 +98,14 @@ function M.setup(dap)
 			request = "launch",
 			program = function()
 				local project = _findProject()
-				vim.print(project)
 
-				vim.g.dotnet_build_project()
-				return vim.g.dotnet_get_dll_path()
+				if project == nil then
+					print("Error: Executable project not fount")
+					return
+				end
+
+				_buildProject(project.Path)
+				return project.TargetPath
 			end,
 		},
 	}
