@@ -44,6 +44,12 @@ require("lazy").setup({
 		},
 	},
 
+	{
+		"m4xshen/hardtime.nvim",
+		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+		opts = {},
+	},
+
 	-- Usability
 	require("plugins.whichkey"),
 	require("plugins.fuzzy-finder"),
