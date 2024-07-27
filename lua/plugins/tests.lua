@@ -6,6 +6,12 @@ return {
 		"antoinemadec/FixCursorHold.nvim",
 		"nvim-treesitter/nvim-treesitter",
 		"Issafalcon/neotest-dotnet",
+		{
+			"andythigpen/nvim-coverage",
+			config = function()
+				require("coverage").setup({})
+			end,
+		},
 	},
 	config = function()
 		require("neotest").setup({
