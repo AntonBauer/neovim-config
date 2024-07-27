@@ -44,6 +44,8 @@ require("lazy").setup({
 		},
 	},
 
+	"sindrets/diffview.nvim",
+
 	{
 		"m4xshen/hardtime.nvim",
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
