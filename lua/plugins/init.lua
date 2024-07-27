@@ -61,7 +61,10 @@ require("lazy").setup({
 	require("plugins.autopairs"),
 	require("plugins.autocomplete"),
 	require("plugins.lsp"),
+
+	-- Dev
 	require("plugins.debug"),
+	require("plugins.tests"),
 
 	-- UI
 	require("plugins.status-line"),
