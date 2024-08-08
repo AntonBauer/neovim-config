@@ -52,6 +52,10 @@ require("lazy").setup({
 		opts = {},
 	},
 
+	{
+		"Exafunction/codeium.vim",
+		event = "BufEnter",
+	},
 	-- Usability
 	require("plugins.whichkey"),
 	require("plugins.fuzzy-finder"),
