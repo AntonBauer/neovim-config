@@ -21,8 +21,7 @@ return {
 						-- Extra arguments for nvim-dap configuration
 						-- See https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for values
 						args = { justMyCode = false },
-						-- Enter the name of your dap adapter, the default value is netcoredbg
-						adapter_name = "netcoredbg",
+						adapter_name = "coreclr",
 					},
 					-- Let the test-discovery know about your custom attributes (otherwise tests will not be picked up)
 					-- Note: Only custom attributes for non-parameterized tests should be added here. See the support note about parameterized tests
@@ -41,6 +40,31 @@ return {
 					discovery_root = "solution",
 				}),
 			},
+
+			-- Keybindings
+			vim.keymap.set("n", "<leader>tf", function()
+				require("neotest").run.run(vim.fn.expand("%"))
+			end, { desc = "[T]est [F]ile" }),
+
+			vim.keymap.set("n", "<leader>tn", function()
+				require("neotest").run.run()
+			end, { desc = "[T]est [N]earest" }),
+
+			vim.keymap.set("n", "<leader>td", function()
+				require("neotest").run.run({ strategy = "dap" })
+			end, { desc = "[T]est [D]ebug nearest" }),
+
+			vim.keymap.set("n", "<leader>to", function()
+				require("neotest").output_panel.open()
+			end, { desc = "[T]est [O]output" }),
+
+			vim.keymap.set("n", "<leader>ts", function()
+				require("neotest").summary.toggle()
+			end, { desc = "[T]est [S]ummary" }),
+
+			vim.keymap.set("n", "<leader>tw", function()
+				require("neotest").watch.toggle()
+			end, { desc = "[T]est [W]atch" }),
 		})
 	end,
 }
